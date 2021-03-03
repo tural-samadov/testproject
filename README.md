@@ -2,6 +2,7 @@
 ## 2)MySQL version 8 was used as a database
 ## 3)To run the project, the user must change the following information in the application.yml file accordingly
 
+```
 database:
   username: root
   password: eagle
@@ -13,11 +14,13 @@ database:
 log:
   file:
     path: D:/Workspaces/LogFiles
+ ```
 	
 
 ## 4)Tools such as Postman or SOAPUI can be used to test services.
 
 ## 5)Request and Response in Services are as follows :
+
 
 # ADD Service
 ## REQUEST : 
@@ -52,7 +55,7 @@ log:
 			"addResult": 3
 		}
 		
-		
+	
 # MULTIPLY Service
 ## REQUEST : 
 	Method : POST
