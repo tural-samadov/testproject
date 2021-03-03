@@ -52,7 +52,7 @@ log:
 
 	Response :  
 		{
-			"addResult": 3
+			"subtractResult": 3
 		}
 		
 	
@@ -69,7 +69,7 @@ log:
 
 	Response :  
 		{
-			"addResult": 18
+			"multiplyResult": 18
 		}				
 				
 				
@@ -86,7 +86,7 @@ log:
 
 	Response :  
 		{
-			"addResult": 2
+			"divideResult": 2
 		}	
 				
 				
