@@ -27,10 +27,14 @@ public class CalculatorController {
     private ObjectMapper objectMapper;
 
     @Autowired
+    private CalculatorService calculatorService;
+
+    @Autowired
     private SequenceService sequenceService;
 
+
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Add add) throws JsonProcessingException {
+    public synchronized ResponseEntity<?> add(@RequestBody Add add) throws JsonProcessingException {
         // Get sequence
         int sequence = sequenceService.saveAndGetSequenceId(new Sequence()).getId();
 
@@ -39,14 +43,12 @@ public class CalculatorController {
         LogWriter.writeLog(logService, logger, "Add " + sequence + ". Request to JSON", sequence, jsonRequest);
 
         // Call the Calculator Add service
-        Thread thread = new Thread(new AddService(add, sequence, logService));
-        thread.start();
-
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        AddResponse addResponse = calculatorService.add(add, sequence);
+        return new ResponseEntity<>(addResponse, HttpStatus.OK);
     }
 
     @PostMapping("/subtract")
-    public ResponseEntity<?> subtract(@RequestBody Subtract subtract) throws JsonProcessingException {
+    public synchronized ResponseEntity<?> subtract(@RequestBody Subtract subtract) throws JsonProcessingException {
         // Get sequence
         int sequence = sequenceService.saveAndGetSequenceId(new Sequence()).getId();
 
@@ -55,14 +57,12 @@ public class CalculatorController {
         LogWriter.writeLog(logService, logger, "Subtract " + sequence + ". Request to JSON", sequence, jsonRequest);
 
         // Call the Calculator Subtract service
-        Thread thread = new Thread(new SubtractService(subtract, sequence, logService));
-        thread.start();
-
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        SubtractResponse subtractResponse = calculatorService.subtract(subtract, sequence);
+        return new ResponseEntity<>(subtractResponse, HttpStatus.OK);
     }
 
     @PostMapping("/multiply")
-    public ResponseEntity<?> multiply(@RequestBody Multiply multiply) throws JsonProcessingException {
+    public synchronized ResponseEntity<?> multiply(@RequestBody Multiply multiply) throws JsonProcessingException {
         // Get sequence
         int sequence = sequenceService.saveAndGetSequenceId(new Sequence()).getId();
 
@@ -71,14 +71,12 @@ public class CalculatorController {
         LogWriter.writeLog(logService, logger, "Multiply " + sequence + ". Request to JSON", sequence, jsonRequest);
 
         // Call the Calculator Multiply service
-        Thread thread = new Thread(new MultiplyService(multiply, sequence, logService));
-        thread.start();
-
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        MultiplyResponse multiplyResponse = calculatorService.multiply(multiply, sequence);
+        return new ResponseEntity<>(multiplyResponse, HttpStatus.OK);
     }
 
     @PostMapping("/divide")
-    public ResponseEntity<?> divide(@RequestBody Divide divide) throws JsonProcessingException {
+    public synchronized ResponseEntity<?> divide(@RequestBody Divide divide) throws JsonProcessingException {
         // Get sequence
         int sequence = sequenceService.saveAndGetSequenceId(new Sequence()).getId();
 
@@ -87,10 +85,8 @@ public class CalculatorController {
         LogWriter.writeLog(logService, logger, "Divide " + sequence + ". Request to JSON", sequence, jsonRequest);
 
         // Call the Calculator Divide service
-        Thread thread = new Thread(new DivideService(divide, sequence, logService));
-        thread.start();
-
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        DivideResponse divideResponse = calculatorService.divide(divide, sequence);
+        return new ResponseEntity<>(divideResponse, HttpStatus.OK);
     }
 
 }
